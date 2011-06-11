@@ -6,7 +6,7 @@ setup(
     description='Script for launch any wsgi or django application over gevent wsgi server.',
     author='Andrei Antoukh',
     author_email='niwi@niwi.be',
-    url='',
+    url='https://github.com/niwibe/py-geventserver',
     version='5',
     license='BSD',
     classifiers = [
