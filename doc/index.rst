@@ -121,7 +121,3 @@ This is an example of supervisord config::
     autostart=true
     autorestart=true
 
-
-.. toctree::
-   :maxdepth: 2
-   :numbered:
