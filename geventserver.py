@@ -41,9 +41,13 @@ def django_worker_function(options, args):
             application = extract_application(appfile)
         except AttributeError:
             sys.exit("Could not find application in %s" % filename)
+        
+        if options.disable_logging:
+            server = WSGIServer((options.host, int(options.port)), application, log=None)
+        else:
+            server = WSGIServer((options.host, int(options.port)), application)
 
-        server = WSGIServer((options.host, int(options.port)), application, log=None)
-        print >>sys.stderr, "Serving %s on %s:%s\n" % (appfile, options.host, options.port)
+        print >>sys.stderr, "Serving %s on %s:%s" % (appfile, options.host, options.port)
         server.serve_forever()
 
     else:
@@ -86,7 +90,9 @@ if __name__ == '__main__':
     parser.add_option('-s', '--settings', dest='settings', default='settings', help='set settings module string')
     parser.add_option('-l', '--logfile', dest='logfile', default='error', help="set path to logfile")
     parser.add_option('-d', '--daemon', dest='daemon', default=False, action="store_true", help="run in daemon mode")
-    parser.add_option('-t', '--type', dest='type', default='django', help="set type application: django, wsgi")
+    parser.add_option('-t', '--type', dest='type', default='wsgi', help="set type application: django, wsgi")
+    parser.add_option('--disable-logging', dest='disable_logging', default=False, action="store_true", 
+        help="Disable logging.")
 
     options, args = parser.parse_args()
     if options.root == 'local':
